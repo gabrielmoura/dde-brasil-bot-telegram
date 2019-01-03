@@ -87,4 +87,41 @@ class Helpers
         $new_welcome_message_ids = array_values($welcome_message_ids) + ['latest' => $welcome_message_id];
         self::setSimpleOption('welcome_message_ids', $new_welcome_message_ids);
     }
+
+    /**
+     * Gets the value of an environment variable.
+     *
+     * @param $key
+     * @param null $default
+     * @return array|bool|false|string|void
+     */
+    public static function env($key, $default = null)
+    {
+        $value = getenv($key);
+
+        if ($value === false) {
+            return value($default);
+        }
+
+        switch (strtolower($value)) {
+            case 'true':
+            case '(true)':
+                return true;
+            case 'false':
+            case '(false)':
+                return false;
+            case 'empty':
+            case '(empty)':
+                return '';
+            case 'null':
+            case '(null)':
+                return;
+        }
+
+        if (($valueLength = strlen($value)) > 1 && $value[0] === '"' && $value[$valueLength - 1] === '"') {
+            return substr($value, 1, -1);
+        }
+
+        return $value;
+    }
 }

@@ -20,6 +20,7 @@ use Longman\TelegramBot\Request;
  */
 class EchoCommand extends UserCommand
 {
+    protected $show_in_help = false;
     /**
      * @var string
      */
@@ -50,7 +51,7 @@ class EchoCommand extends UserCommand
     {
         $message = $this->getMessage();
         $chat_id = $message->getChat()->getId();
-        $text    = trim($message->getText(true));
+        $text = trim($message->getText(true));
 
         if ($text === '') {
             $text = 'Command usage: ' . $this->getUsage();
@@ -58,7 +59,7 @@ class EchoCommand extends UserCommand
 
         $data = [
             'chat_id' => $chat_id,
-            'text'    => $text,
+            'text' => $text,
         ];
 
         return Request::sendMessage($data);

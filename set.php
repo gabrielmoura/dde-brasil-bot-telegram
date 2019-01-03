@@ -7,16 +7,17 @@
 
 // Load composer
 require_once __DIR__ . '/vendor/autoload.php';
-require_once __DIR__ . '/config.php';
 
-$dotenv = (new Dotenv\Dotenv(__DIR__))->load();
+use Dotenv\Dotenv;
+use Longman\TelegramBot\{Exception\TelegramException, Telegram};
 
 try {
+    Dotenv::create(__DIR__)->load();
     // Create Telegram API object
-    $telegram = new Longman\TelegramBot\Telegram(getenv('API_KEY'), getenv('USERNAME'));
+    $telegram = new Telegram(env('API_KEY'), env('USERNAME'));
 
     // Set webhook
-    $result = $telegram->setWebhook(getenv('HOOK_URL'));
+    $result = $telegram->setWebhook(env('HOOK_URL'));
 
     // To use a self-signed certificate, use this line instead
     //$result = $telegram->setWebhook($hook_url, ['certificate' => $certificate_path]);
@@ -24,6 +25,6 @@ try {
     if ($result->isOk()) {
         echo $result->getDescription();
     }
-} catch (Longman\TelegramBot\Exception\TelegramException $e) {
+} catch (TelegramException $e) {
     echo $e->getMessage();
 }

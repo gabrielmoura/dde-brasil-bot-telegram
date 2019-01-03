@@ -7,12 +7,14 @@
 
 // Load composer
 require_once __DIR__ . '/vendor/autoload.php';
-require_once __DIR__ . '/config.php';
-$dotenv = (new Dotenv\Dotenv(__DIR__))->load();
+
+use Dotenv\Dotenv;
+use Longman\TelegramBot\{Exception\TelegramException, Telegram};
 
 try {
+    Dotenv::create(__DIR__)->load();
     // Create Telegram API object
-    $telegram = new Longman\TelegramBot\Telegram(getenv('API_KEY'), getenv('USERNAME'));
+    $telegram = new Telegram(env('API_KEY'), env('USERNAME'));
 
     // Delete webhook
     $result = $telegram->deleteWebhook();
@@ -20,6 +22,6 @@ try {
     if ($result->isOk()) {
         echo $result->getDescription();
     }
-} catch (Longman\TelegramBot\Exception\TelegramException $e) {
+} catch (TelegramException $e) {
     echo $e->getMessage();
 }

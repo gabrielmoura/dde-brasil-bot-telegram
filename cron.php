@@ -13,32 +13,43 @@ $commands = [
 
 // Load composer
 require_once __DIR__ . '/vendor/autoload.php';
-require_once __DIR__ . '/config.php';
+
+use Dotenv\Dotenv;
+use Longman\TelegramBot\{Exception\TelegramException, Exception\TelegramLogException, Telegram, TelegramLog};
+
 
 try {
+    Dotenv::create(__DIR__)->load();
     // Create Telegram API object
-    $telegram = new Longman\TelegramBot\Telegram($bot_api_key, $bot_username);
+    $telegram = new Telegram(env('API_KEY'), env('USERNAME'));
 
     // Add commands paths containing your custom commands
-    $telegram->addCommandsPaths($commands_paths);
+    $telegram->addCommandsPaths([__DIR__ . '/Commands/']);
 
     // Enable admin users
-    $telegram->enableAdmins($admin_users);
+    $telegram->enableAdmins(['650501601']);
 
     // Enable MySQL
-    $telegram->enableMySql($mysql_credentials);
+    $telegram->enableMySql([
+        'host' => env('DB_HOST'),
+        'user' => env('DB_USER'),
+        'password' => env('DB_PASSWORD'),
+        'database' => env('DB_DATABASE'),
+    ]);
 
     // Logging (Error, Debug and Raw Updates)
-    //Longman\TelegramBot\TelegramLog::initErrorLog(__DIR__ . "/{$bot_username}_error.log");
-    //Longman\TelegramBot\TelegramLog::initDebugLog(__DIR__ . "/{$bot_username}_debug.log");
-    //Longman\TelegramBot\TelegramLog::initUpdateLog(__DIR__ . "/{$bot_username}_update.log");
+    TelegramLog::initErrorLog(__DIR__ . '/' . env('USERNAME') . "_error.log");
+    TelegramLog::initDebugLog(__DIR__ . '/' . env('USERNAME') . "_debug.log");
+    TelegramLog::initUpdateLog(__DIR__ . '/' . env('USERNAME') . "_update.log");
+
 
     // If you are using a custom Monolog instance for logging, use this instead of the above
     //Longman\TelegramBot\TelegramLog::initialize($your_external_monolog_instance);
 
     // Set custom Upload and Download paths
-    //$telegram->setDownloadPath(__DIR__ . '/Download');
-    //$telegram->setUploadPath(__DIR__ . '/Upload');
+    $telegram->setDownloadPath(env('PATH_DOWNLOAD', __DIR__ . '/assets/download'));
+    $telegram->setUploadPath(env('PATH_UPLOAD', __DIR__ . '/assets/upload'));
+
 
     // Here you can set some command specific parameters,
     // e.g. Google geocode/timezone api key for /date command:
@@ -53,13 +64,14 @@ try {
     // Run user selected commands
     $telegram->runCommands($commands);
 
-} catch (Longman\TelegramBot\Exception\TelegramException $e) {
+} catch (TelegramException $e) {
     // Silence is golden!
     //echo $e;
     // Log telegram errors
-    Longman\TelegramBot\TelegramLog::error($e);
-} catch (Longman\TelegramBot\Exception\TelegramLogException $e) {
+    TelegramLog::error($e);
+} catch (TelegramLogException $e) {
     // Silence is golden!
     // Uncomment this to catch log initialisation errors
     //echo $e;
+    TelegramLog::error($e);
 }

@@ -12,14 +12,16 @@
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/config.php';
 
+use Longman\TelegramBot\{TelegramBotManager\BotManager};
+
 try {
     $bot = new TelegramBot\TelegramBotManager\BotManager([
         // Add you bot's API key and name
-        'api_key'      => 'your:bot_api_key',
-        'bot_username' => $bot_username,
+        'api_key' => getenv('API_KEY'),
+        'bot_username' => getenv('USERNAME'),
 
         // Secret key required to access the webhook
-        'secret'       => 'super_secret',
+        'secret' => getenv('SECRET','1234'),
 
         //'webhook'      => [
         //    // When using webhook, this needs to be uncommented and defined
@@ -74,7 +76,7 @@ try {
         //],
 
         // Requests Limiter (tries to prevent reaching Telegram API limits)
-        'limiter'      => ['enabled' => true],
+        'limiter' => ['enabled' => true],
     ]);
 
     // Run the bot!
