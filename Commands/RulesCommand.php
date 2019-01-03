@@ -43,7 +43,7 @@ class RulesCommand extends UserCommand
      */
 
     protected $show_in_help = true;
-    protected $private_only = true;
+    protected $private_only = false;
     /**
      * @inheritdoc
      */

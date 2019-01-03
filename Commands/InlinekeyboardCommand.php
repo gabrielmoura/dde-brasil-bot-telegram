@@ -21,6 +21,7 @@ use Longman\TelegramBot\Request;
  */
 class InlinekeyboardCommand extends UserCommand
 {
+    public $show_in_help=false;
     /**
      * @var string
      */

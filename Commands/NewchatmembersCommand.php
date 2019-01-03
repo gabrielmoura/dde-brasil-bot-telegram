@@ -57,10 +57,10 @@ class NewchatmembersCommand extends SystemCommand
         $chat_id = $this->chat_id = $message->getChat()->getId();
         $this->user_id = $message->getFrom()->getId();
         $this->group_name = $message->getChat()->getTitle();
-        ['users' => $new_users, 'bots' => $new_bots] = $this->getNewUsersAndBots();
+        //['users' => $new_users, 'bots' => $new_bots] = $this->getNewUsersAndBots();
         // Kick bots if they weren't added by an admin.
-        $this->kickDisallowedBots($new_users, $chat_id);
-        return $this->refreshWelcomeMessage($new_bots);
+        //$this->kickDisallowedBots($new_users, $chat_id);
+        //return $this->refreshWelcomeMessage($new_bots);
     }
 
     /**

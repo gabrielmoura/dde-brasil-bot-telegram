@@ -9,8 +9,7 @@
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/config.php';
 
-$dotenv = \Dotenv\Dotenv::create(__DIR__);
-$dotenv->load();
+$dotenv = (new Dotenv\Dotenv(__DIR__))->load();
 
 try {
     // Create Telegram API object

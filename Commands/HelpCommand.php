@@ -21,6 +21,7 @@ use Longman\TelegramBot\Request;
  */
 class HelpCommand extends UserCommand
 {
+    public $private_only = false;
     /**
      * @var string
      */

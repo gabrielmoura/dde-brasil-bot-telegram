@@ -20,6 +20,7 @@ use Longman\TelegramBot\Request;
  */
 class ImageCommand extends UserCommand
 {
+    public $show_in_help=false;
     /**
      * @var string
      */

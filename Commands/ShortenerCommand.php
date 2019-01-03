@@ -21,6 +21,7 @@ use Longman\TelegramBot\Request;
  */
 class ShortenerCommand extends UserCommand
 {
+    public $show_in_help = false;
     /**
      * @var string
      */
@@ -57,7 +58,7 @@ class ShortenerCommand extends UserCommand
 
         $data = [
             'chat_id' => $chat_id,
-            'text'    => $text,
+            'text' => $text,
         ];
 
         return Request::sendMessage($data);

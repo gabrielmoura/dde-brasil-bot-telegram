@@ -20,6 +20,7 @@ use Longman\TelegramBot\Request;
  */
 class GenericCommand extends SystemCommand
 {
+    public $show_in_help=false;
     /**
      * @var string
      */
@@ -57,7 +58,7 @@ class GenericCommand extends SystemCommand
 
         $data = [
             'chat_id' => $chat_id,
-            'text'    => 'Command /' . $command . ' not found.. :(',
+            'text'    => 'Command /' . $command . ' não existe.. :(',
         ];
 
         return Request::sendMessage($data);

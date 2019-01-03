@@ -21,6 +21,7 @@ use Longman\TelegramBot\Request;
  */
 class MarkdownCommand extends UserCommand
 {
+    public $show_in_help = false;
     /**
      * @var string
      */
@@ -53,9 +54,9 @@ class MarkdownCommand extends UserCommand
         $chat_id = $message->getChat()->getId();
 
         $data = [
-            'chat_id'    => $chat_id,
+            'chat_id' => $chat_id,
             'parse_mode' => 'MARKDOWN',
-            'text'       => '*bold* _italic_ `inline fixed width code`
+            'text' => '*bold* _italic_ `inline fixed width code`
 ```
 preformatted code block
 code block

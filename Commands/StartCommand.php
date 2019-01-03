@@ -20,6 +20,7 @@ use Longman\TelegramBot\Request;
  */
 class StartCommand extends SystemCommand
 {
+    public $show_in_help=false;
     /**
      * @var string
      */
